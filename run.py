@@ -41,10 +41,13 @@ images = [f for f in os.listdir(new_path) if f.endswith(".JPEG")]
 for i, image in enumerate(images):
     # Extract all the faces from each image
     total_faces, pil_faces = face_extraction(new_path, image, device)
-    # Detect all the blurred faces
-    count = blur_detection(pil_faces, thresh)
-    # Calculate the blurriness factor of each photograph
-    blurriness = 0 if total_faces == 0 else count / total_faces
+    if total_faces == 0 and pil_faces == None:
+        blurriness = 1
+    else:
+        # Detect all the blurred faces
+        count = blur_detection(pil_faces, thresh)
+        # Calculate the blurriness factor of each photograph
+        blurriness = 0 if total_faces == 0 else count / total_faces
 
     # Loop through the ratings dictionary
     for rating, (min_val, max_val) in ratings.items():
@@ -60,7 +63,7 @@ for i, image in enumerate(images):
             )
             # Break the loop once the image has been copied to the appropriate directory
             break
-    
+    print(f"{i+1} image(s) processed successfully!")
 
     # Raise an error if the blurriness value is outside the valid range
     if blurriness < 0 or blurriness > 1:

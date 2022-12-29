@@ -18,7 +18,7 @@ def blur_detection(pil_faces, thresh=10.00):
         if fm >= thresh:
             face_count += 1
 
-    print("\nBlurriness calculated!")
+    # print("\nBlurriness calculated!")
     return face_count
 
 
