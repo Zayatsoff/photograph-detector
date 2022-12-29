@@ -2,7 +2,7 @@ import os
 import re
 
 # Set the path of the Python file to be traversed
-file_path = "path/to/file.py"
+file_path = "C:/Users/Orange/miniconda3/envs/smile-detect/smile-detector - Copy/run.py"
 
 # Set the file extension for the files to be deleted
 extension = ".py"

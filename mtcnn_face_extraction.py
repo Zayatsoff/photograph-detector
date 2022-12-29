@@ -16,8 +16,8 @@ def face_extraction(path, image, device):
     # Define the desired width and height of the cropped faces
     face_width = 200
     face_height = 200
-    # Create an empty 3-dimensional NumPy array with shape (0, height, width) and the default data type (float64)
-    faces = np.empty((face_width, face_height, 0))
+    # Create an empty list to store the extracted faces
+    faces_list = []
     num_faces = 0
 
     im = Image.open(path + f"/{image}")
@@ -38,21 +38,14 @@ def face_extraction(path, image, device):
 
             # Convert the image to a numpy array
             face_np = np.array(face_im)
-            face_np = face_np.reshape(
-                face_np.shape[2], face_np.shape[0], face_np.shape[1]
-            )
-            # If the faces array is empty, create it using the shape and data type of the face_np array
-            if faces.size == 0:
-                faces = np.empty(
-                    (face_np.shape[0], face_np.shape[1], face_np.shape[2]),
-                    dtype=face_np.dtype,
-                )
+            # Add the face numpy array to the list of faces
+            faces_list.append(face_np)
 
-            # Stack the face numpy array vertically to the existing faces array using vstack()
-            faces = np.vstack((faces, face_np))
+    # Convert the list of faces to a numpy array
+    faces = np.array(faces_list)
+    # Convert the numpy array of faces to a list of cv2 images
+    faces_cv2 = [cv2.cvtColor(face, cv2.COLOR_BGR2RGB) for face in faces]
 
-    print(
-        f"\nFaces extracted successfully!\n faces:{num_faces}"
-    )  # \n faces: \n {faces} \n {total_faces}\n DONE \n
+    print(f"\nFaces extracted successfully!\nNumber of faces: {num_faces}")
     # Return the list of detected faces
-    return num_faces, faces
+    return num_faces, faces_cv2

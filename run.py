@@ -43,9 +43,8 @@ for i, image in enumerate(images):
     total_faces, pil_faces = face_extraction(new_path, image, device)
     # Detect all the blurred faces
     count = blur_detection(pil_faces, thresh)
-
+    # Calculate the blurriness factor of each photograph
     blurriness = 0 if total_faces == 0 else count / total_faces
-    print(f"\nBlurriness: {blurriness}\n")
 
     # Loop through the ratings dictionary
     for rating, (min_val, max_val) in ratings.items():
@@ -61,7 +60,8 @@ for i, image in enumerate(images):
             )
             # Break the loop once the image has been copied to the appropriate directory
             break
+    print("\n---All images have been organized!---")
 
     # Raise an error if the blurriness value is outside the valid range
-    # if blurriness < 0 or blurriness > 1:
-    #     raise ValueError
+    if blurriness < 0 or blurriness > 1:
+        raise ValueError
