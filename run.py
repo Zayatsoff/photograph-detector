@@ -32,7 +32,7 @@ ratings = {
 
 ## --- Functions ---
 # Converts 20 random images from .ARW to .JPEG
-# random_image_convert(path_ARW, new_path)
+random_image_convert(path_ARW, new_path)
 
 
 # Get images
@@ -60,8 +60,9 @@ for i, image in enumerate(images):
             )
             # Break the loop once the image has been copied to the appropriate directory
             break
-    print("\n---All images have been organized!---")
+    
 
     # Raise an error if the blurriness value is outside the valid range
     if blurriness < 0 or blurriness > 1:
         raise ValueError
+print("\n---All images have been organized!---")
