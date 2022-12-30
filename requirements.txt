@@ -1,0 +1,10 @@
+keras==2.11.0
+Keras-Applications==1.0.8
+Keras-Preprocessing==1.1.2
+numpy==1.23.5
+opencv-python==4.6.0.66
+Pillow==9.3.0
+rawpy==0.17.3torch==1.13.1
+torchaudio==0.13.1
+torchvision==0.14.1
+
