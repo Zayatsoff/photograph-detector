@@ -9,7 +9,7 @@ import os
 
 ## --- Paths ---
 # Set the path to the folder containing the .ARW files
-path_ARW = r"D:/Petr/OG"
+old_path = r"D:/Petr/OG"
 # Set the destination path for the JPEG files
 new_path = r"D:/Petr/2.0"
 # Set the destination path for the images
@@ -32,7 +32,7 @@ ratings = {
 
 ## --- Functions ---
 # Converts 20 random images from .ARW to .JPEG
-random_image_convert(path_ARW, new_path)
+random_image_convert(old_path, new_path)
 
 
 # Get images
