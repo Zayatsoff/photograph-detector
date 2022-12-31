@@ -4,12 +4,16 @@ A program that reads a list of files with the extension .ARW or .JPG from a spec
 ## Installation
 1. Clone this repository
 2. Install the required dependencies:
-```pip install -r requirements.txt```
+```
+pip install -r requirements.txt
+```
 
 ## Usage
 To run the program, use the following command:
 
-```python run.py```
+```
+python run.py
+```
 
 Make sure to edit `old_path`, `new_path`, and `extracted_path` inside of `run.py`.
 
