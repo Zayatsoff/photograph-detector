@@ -21,11 +21,12 @@ Make sure to edit `old_path`, `new_path`, and `extracted_path` inside of `run.py
 The program will create five folders named "1 star", "2 stars", "3 stars", "4 stars", and "5 stars" in the specified directory. It will then move the processed images into the appropriate folder based on their blurriness rating.
 
 ## TODO
-- [ ] Check for similar looking images
-- [ ] Detect weird faces in images
-- [ ] Port to MacOS 
-- [ ] Improve Facial recognition
 - [x] Create `extracted` folder unless already created
+- [ ] Check for similar looking images
+- [ ] Port to MacOS 
+- [ ] Detect weird faces in images
+- [ ] Improve Facial recognition
+
 
 ## Additional Notes
 - The MTCNN model provided by [Tim Esler](https://github.com/timesler/facenet-pytorch). 
