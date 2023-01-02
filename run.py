@@ -53,7 +53,10 @@ for i, image in enumerate(images):
     for rating, (min_val, max_val) in ratings.items():
         # Check if the blurriness value falls within the range for the current rating
         if min_val <= blurriness <= max_val:
-            # Check if the directory for the current rating already exists
+            # Check if the directory for the extracted folder
+            if not os.path.exists(extracted_path):
+                # Create the directory for extracted folder
+                os.mkdir(extracted_path)
             if not os.path.exists(extracted_path + f"/{rating}"):
                 # Create the directory for the rating
                 os.mkdir(extracted_path + f"/{rating}")
