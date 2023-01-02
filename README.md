@@ -23,7 +23,8 @@ The program will create five folders named "1 star", "2 stars", "3 stars", "4 st
 ## TODO
 - [x] Create `extracted` folder unless already created
 - [ ] Check for similar looking images
-- [ ] Port to MacOS 
+- [ ] Turn into a standalone
+  - [ ] Port to MacOS 
 - [ ] Detect weird faces in images
 - [ ] Improve Facial recognition
 
