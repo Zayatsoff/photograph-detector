@@ -19,12 +19,13 @@ extracted_path = r"D:/Petr/2.0/extracted_faces"
 
 ## --- Misc ---
 # Determine if an MPS or CUDA is available
-if torch.backends.mps.is_available():
-    device = torch.device("mps")
-elif torch.cuda.is_available():
-    device = torch.device("cuda:0")
-else:
-    device = torch.device("cpu")
+device = torch.device(
+    "mps"
+    if torch.backends.mps.is_available()
+    else "cuda:" + str(torch.cuda.current_device())
+    if torch.cuda.is_available()
+    else "cpu"
+)
 # Define threshhold of blurriness
 thresh = 10.00
 # Define a dictionary with the directory names and range of blurriness values for each rating
