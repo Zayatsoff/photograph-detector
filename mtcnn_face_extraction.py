@@ -6,10 +6,7 @@ import numpy as np
 import cv2
 from PIL import Image, ImageDraw
 
-
 def face_extraction(path, image, device):
-    # print("Running on device: {}".format(device))
-
     # Define MTCNN module
     mtcnn = MTCNN(keep_all=True, device=device)
 
@@ -20,7 +17,8 @@ def face_extraction(path, image, device):
     faces_list = []
     num_faces = 0
 
-    im = Image.open(path + f"/{image}")
+    # Open the image using PIL
+    im = Image.open(os.path.join(path, image))
     # Detect faces
     boxes, probs = mtcnn.detect(im)
     if boxes is None:

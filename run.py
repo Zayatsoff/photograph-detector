@@ -1,10 +1,10 @@
+import os
+import shutil
+import torch
+
 from random_image_converter import random_image_convert
 from mtcnn_face_extraction import face_extraction
 from variance_of_laplacian import blur_detection
-
-import shutil
-import torch
-import os
 
 
 ## --- Paths ---
@@ -16,8 +16,13 @@ new_path = r"D:/Petr/2.0"
 extracted_path = r"D:/Petr/2.0/extracted_faces"
 
 ## --- Misc ---
-# Determine if an nvidia GPU is available
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+# Determine if an MPS or CUDA is available
+if torch.backends.mps.is_available():
+    device = torch.device("mps")
+elif torch.cuda.is_available():
+    device = torch.device("cuda:0")
+else:
+    device = torch.device("cpu")
 # Define threshhold of blurriness
 thresh = 10.00
 # Define a dictionary with the directory names and range of blurriness values for each rating
@@ -31,8 +36,8 @@ ratings = {
 
 
 ## --- Functions ---
-# Converts 20 random images from .ARW to .JPEG
-random_image_convert(old_path, new_path)
+# # Converts 20 random images from .ARW to .JPEG
+# random_image_convert(old_path, new_path)
 
 
 # Get images
@@ -57,12 +62,13 @@ for i, image in enumerate(images):
             if not os.path.exists(extracted_path):
                 # Create the directory for extracted folder
                 os.mkdir(extracted_path)
-            if not os.path.exists(extracted_path + f"/{rating}"):
+            if not os.path.exists(os.path.join(extracted_path, rating)):
                 # Create the directory for the rating
-                os.mkdir(extracted_path + f"/{rating}")
+                os.mkdir(os.path.join(extracted_path, rating))
             # Copy the image to the directory
             shutil.copyfile(
-                new_path + "/" + image, extracted_path + f"/{rating}/" + image
+                os.path.join(new_path, image),
+                os.path.join(extracted_path, f"{rating}", image),
             )
             # Break the loop once the image has been copied to the appropriate directory
             break
