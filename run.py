@@ -8,6 +8,8 @@ from variance_of_laplacian import blur_detection
 
 
 ## --- Paths ---
+# Change to false if you want to convert the images from .ARW to .JPEG format
+convert_im = False
 # Set the path to the folder containing the .ARW files
 old_path = r"D:/Petr/OG"
 # Set the destination path for the JPEG files
@@ -34,10 +36,10 @@ ratings = {
     "5 Stars": (0.81, 1.00),
 }
 
-
 ## --- Functions ---
-# # Converts 20 random images from .ARW to .JPEG
-# random_image_convert(old_path, new_path)
+# Converts 20 random images from .ARW to .JPEG
+if convert_im:
+    random_image_convert(old_path, new_path)
 
 
 # Get images
