@@ -22,7 +22,7 @@ The program will create five folders named "1 star", "2 stars", "3 stars", "4 st
 
 ## TODO
 - [x] Create `extracted` folder unless already created
-- [x] Add universal support
+- [x] Add universal OS support
 - [ ] Check for similar looking images
 - [ ] Turn into a standalone
 - [ ] Detect weird faces in images
