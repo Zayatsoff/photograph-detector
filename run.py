@@ -1,21 +1,44 @@
 import os
 import shutil
 import torch
+import argparse
 
 from random_image_converter import random_image_convert
 from mtcnn_face_extraction import face_extraction
 from variance_of_laplacian import blur_detection
 
+## --- Arg Parse ---
+# Create a parser object
+parser = argparse.ArgumentParser()
 
-## --- Paths ---
-# Change to false if you want to convert the images from .ARW to .JPEG format
-convert_im = True
-# Set the path to the folder containing the .ARW files
-old_path = r"D:/Petr/OG"
-# Set the destination path for the JPEG files
-new_path = r"D:/Petr/2.0"
-# Set the destination path for the images
-extracted_path = r"D:/Petr/2.0/extracted_faces"
+# Add the "convert_im" argument and set its default value to False
+parser.add_argument(
+    "--convert_im",
+    default=False,
+    action="store_true",
+    help="Convert images from .ARW to .JPEG format",
+)
+# Add the "old_path" argument and set its default value to an empty string
+parser.add_argument(
+    "--old_path",
+    default="D:/Petr/OG",
+    help="Path to the folder containing the .ARW files",
+)
+# Add the "new_path" argument and set its default value to an empty string
+parser.add_argument(
+    "--new_path", default="D:/Petr/2.0", help="Destination path for the JPEG files"
+)
+# Add the "extracted_path" argument and set its default value to an empty string
+parser.add_argument(
+    "--extracted_path",
+    default="D:/Petr/2.0/extracted_faces",
+    help="Destination path for the images",
+)
+# Add the "extracted_path" argument and set its default value to an empty string
+parser.add_argument("--thresh", default="10.00", help="Threshold of blurriness")
+
+# Parse the arguments
+args = parser.parse_args()
 
 ## --- Misc ---
 # Determine if an MPS or CUDA is available
@@ -26,8 +49,6 @@ device = torch.device(
     if torch.cuda.is_available()
     else "cpu"
 )
-# Define threshhold of blurriness
-thresh = 10.00
 # Define a dictionary with the directory names and range of blurriness values for each rating
 ratings = {
     "1 Star": (0.0, 0.20),
@@ -39,21 +60,21 @@ ratings = {
 print("---Begining process---\n")
 ## --- Functions ---
 # Converts 20 random images from .ARW to .JPEG
-if convert_im:
-    random_image_convert(old_path, new_path)
+if args.convert_im:
+    random_image_convert(args.old_path, args.new_path)
 
 
 # Get images
-images = [f for f in os.listdir(new_path) if f.endswith(".JPEG")]
+images = [f for f in os.listdir(args.new_path) if f.endswith(".JPEG")]
 
 for i, image in enumerate(images):
     # Extract all the faces from each image
-    total_faces, pil_faces = face_extraction(new_path, image, device)
+    total_faces, pil_faces = face_extraction(args.new_path, image, device)
     if total_faces == 0 and pil_faces == None:
         blurriness = 1
     else:
         # Detect all the blurred faces
-        count = blur_detection(pil_faces, thresh)
+        count = blur_detection(pil_faces, args.thresh)
         # Calculate the blurriness factor of each photograph
         blurriness = 0 if total_faces == 0 else count / total_faces
 
@@ -62,16 +83,16 @@ for i, image in enumerate(images):
         # Check if the blurriness value falls within the range for the current rating
         if min_val <= blurriness <= max_val:
             # Check if the directory for the extracted folder
-            if not os.path.exists(extracted_path):
+            if not os.path.exists(args.extracted_path):
                 # Create the directory for extracted folder
-                os.mkdir(extracted_path)
-            if not os.path.exists(os.path.join(extracted_path, rating)):
+                os.mkdir(args.extracted_path)
+            if not os.path.exists(os.path.join(args.extracted_path, rating)):
                 # Create the directory for the rating
-                os.mkdir(os.path.join(extracted_path, rating))
+                os.mkdir(os.path.join(args.extracted_path, rating))
             # Copy the image to the directory
             shutil.copyfile(
-                os.path.join(new_path, image),
-                os.path.join(extracted_path, f"{rating}", image),
+                os.path.join(args.new_path, image),
+                os.path.join(args.extracted_path, f"{rating}", image),
             )
             # Break the loop once the image has been copied to the appropriate directory
             break
