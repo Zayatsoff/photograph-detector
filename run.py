@@ -35,7 +35,9 @@ parser.add_argument(
     help="Destination path for the images",
 )
 # Add the "extracted_path" argument and set its default value to an empty string
-parser.add_argument("--thresh", default="10.00", help="Threshold of blurriness [float]")
+parser.add_argument(
+    "--thresh", type=float, default="10.00", help="Threshold of blurriness [float]"
+)
 
 # Parse the arguments
 args = parser.parse_args()
@@ -57,7 +59,7 @@ ratings = {
     "4 Stars": (0.61, 0.80),
     "5 Stars": (0.81, 1.00),
 }
-print("---Begining process---\n")
+print("\n---Beginning process---\n")
 ## --- Functions ---
 # Converts 20 random images from .ARW to .JPEG
 if args.convert_im:
