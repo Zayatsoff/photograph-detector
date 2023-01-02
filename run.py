@@ -16,7 +16,7 @@ parser.add_argument(
     "--convert_im",
     default=False,
     action="store_true",
-    help="Convert images from .ARW to .JPEG format",
+    help="Convert images from .ARW to .JPEG format [boolean]",
 )
 # Add the "old_path" argument and set its default value to an empty string
 parser.add_argument(
@@ -35,7 +35,7 @@ parser.add_argument(
     help="Destination path for the images",
 )
 # Add the "extracted_path" argument and set its default value to an empty string
-parser.add_argument("--thresh", default="10.00", help="Threshold of blurriness")
+parser.add_argument("--thresh", default="10.00", help="Threshold of blurriness [float]")
 
 # Parse the arguments
 args = parser.parse_args()
