@@ -76,5 +76,5 @@ for i, image in enumerate(images):
 
     # Raise an error if the blurriness value is outside the valid range
     if blurriness < 0 or blurriness > 1:
-        raise ValueError
+        raise ValueError("Blurriness value is outside the valid range (0 to 1)")
 print("\n---All images have been organized!---")
