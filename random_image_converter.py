@@ -37,4 +37,4 @@ def random_image_convert(path, destination_path):
         # Save the image as a JPEG to the destination folder
         pil_image.save(destination_path + "/" + file[:-4] + ".JPEG", "JPEG")
 
-    print("\nImages converted!")
+    print("\n-Images converted!\n\n--------------------------------")
