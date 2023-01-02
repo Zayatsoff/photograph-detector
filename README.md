@@ -6,16 +6,23 @@ A program that reads a list of files with the extension .ARW or .JPG from a spec
 2. Install the required dependencies:
 ```
 pip install -r requirements.txt
+
 ```
 
 ## Usage
 To run the program, use the following command:
 
 ```
-python run.py
+python run.py --convert_im [True/False] --old_path [path] --new_path [path] --extracted_path [path] --thresh [threshold in float]
+
 ```
 
-Make sure to edit `old_path`, `new_path`, and `extracted_path` inside of `run.py`.
+For a full list of available arguments and their descriptions, run the following command:
+
+```
+python run.py --help
+
+```
 
 ## Output
 The program will create five folders named "1 star", "2 stars", "3 stars", "4 stars", and "5 stars" in the specified directory. It will then move the processed images into the appropriate folder based on their blurriness rating.
