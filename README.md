@@ -25,7 +25,7 @@ The program will create five folders named "1 star", "2 stars", "3 stars", "4 st
 - [ ] Detect weird faces in images
 - [ ] Port to MacOS 
 - [ ] Improve Facial recognition
-- [ ] Create `extracted` folder unless already created
+- [x] Create `extracted` folder unless already created
 
 ## Additional Notes
 - The MTCNN model provided by [Tim Esler](https://github.com/timesler/facenet-pytorch). 
