@@ -23,7 +23,7 @@ python run.py --help
 ```
 
 ## Output
-The program will create five folders named "1 star", "2 stars", "3 stars", "4 stars", and "5 stars" in the specified directory. It will then move the processed images into the appropriate folder based on their blurriness rating.
+The program will create six folders named "1 star", "2 stars", "3 stars", "4 stars",  "5 stars", and "No Faces" in the specified directory. It will then move the processed images into the appropriate folder based on their blurriness rating.
 
 ## TODO
 - [x] Create `extracted` folder unless already created
