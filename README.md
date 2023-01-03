@@ -13,12 +13,10 @@ pip install -r requirements.txt
 To run the program, use the following command:
 
 ```
-python run.py --convert_im [True/False] --old_path [path] --new_path [path] --extracted_path [path] --thresh [threshold in float]
-
+python run.py --convert_im --old_path [path] --new_path [path] --extracted_path [path] --thresh [threshold in float]
 ```
 
 For a full list of available arguments and their descriptions, run the following command:
-
 ```
 python run.py --help
 
