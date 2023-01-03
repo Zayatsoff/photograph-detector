@@ -72,32 +72,40 @@ images = [f for f in os.listdir(args.new_path) if f.endswith(".JPEG")]
 for i, image in enumerate(images):
     # Extract all the faces from each image
     total_faces, pil_faces = face_extraction(args.new_path, image, device)
-    if total_faces == 0 and pil_faces == None:
-        blurriness = 1
+    if total_faces == 0:
+        # Create the "No Faces" folder if it does not exist
+        if not os.path.exists(os.path.join(args.extracted_path, "No Faces")):
+            os.mkdir(os.path.join(args.extracted_path, "No Faces"))
+        # Move the image to the "No Faces" folder
+        shutil.move(
+            os.path.join(args.new_path, image),
+            os.path.join(args.extracted_path, "No Faces"),
+        )
     else:
-        # Detect all the blurred faces
-        count = blur_detection(pil_faces, args.thresh)
-        # Calculate the blurriness factor of each photograph
-        blurriness = 0 if total_faces == 0 else count / total_faces
+        if pil_faces == None:
+            blurriness = 1
+        else:
+            # Detect all the blurred faces
+            count = blur_detection(pil_faces, args.thresh)
+            # Calculate the blurriness factor of each photograph
+            blurriness = count / total_faces
 
-    # Loop through the ratings dictionary
-    for rating, (min_val, max_val) in ratings.items():
-        # Check if the blurriness value falls within the range for the current rating
-        if min_val <= blurriness <= max_val:
-            # Check if the directory for the extracted folder
-            if not os.path.exists(args.extracted_path):
-                # Create the directory for extracted folder
-                os.mkdir(args.extracted_path)
-            if not os.path.exists(os.path.join(args.extracted_path, rating)):
-                # Create the directory for the rating
-                os.mkdir(os.path.join(args.extracted_path, rating))
-            # Copy the image to the directory
-            shutil.copyfile(
-                os.path.join(args.new_path, image),
-                os.path.join(args.extracted_path, f"{rating}", image),
-            )
-            # Break the loop once the image has been copied to the appropriate directory
-            break
+        # Loop through the ratings dictionary
+        for rating, (min_val, max_val) in ratings.items():
+            # Check if the blurriness value falls within the range for the current rating
+            if min_val <= blurriness <= max_val:
+                # Check if the directory for the extracted folder
+                if not os.path.exists(args.extracted_path):
+                    # Create the directory for extracted folder
+                    os.mkdir(args.extracted_path)
+                if not os.path.exists(os.path.join(args.extracted_path, rating)):
+                    # Create the directory for the rating
+                    os.mkdir(os.path.join(args.extracted_path, rating))
+                # Move the image to the appropriate folder
+                shutil.move(
+                    os.path.join(args.new_path, image),
+                    os.path.join(args.extracted_path, rating),
+                )
     print(f"{i+1} image(s) processed successfully!")
 
     # Raise an error if the blurriness value is outside the valid range
