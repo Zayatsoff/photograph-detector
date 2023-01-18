@@ -21,17 +21,19 @@ parser.add_argument(
 # Add the "old_path" argument and set its default value to an empty string
 parser.add_argument(
     "--old_path",
-    default="D:/Petr/OG",
+    default="/Volumes/4TB_WD_MAUR/KPN stills/Day 6 PArty/RAW",
     help="Path to the folder containing the .ARW files",
 )
 # Add the "new_path" argument and set its default value to an empty string
 parser.add_argument(
-    "--new_path", default="D:/Petr/2.0", help="Destination path for the JPEG files"
+    "--new_path",
+    default="/Users/liorrozin/Desktop/2.0",
+    help="Destination path for the JPEG files",
 )
 # Add the "extracted_path" argument and set its default value to an empty string
 parser.add_argument(
     "--extracted_path",
-    default="D:/Petr/2.0/extracted_faces",
+    default="/Users/liorrozin/Desktop/2.0/extracted_faces",
     help="Destination path for the images",
 )
 # Add the "extracted_path" argument and set its default value to an empty string
@@ -45,11 +47,7 @@ args = parser.parse_args()
 ## --- Misc ---
 # Determine if an MPS or CUDA is available
 device = torch.device(
-    "mps"
-    if torch.backends.mps.is_available()
-    else "cuda:" + str(torch.cuda.current_device())
-    if torch.cuda.is_available()
-    else "cpu"
+    "cuda:" + str(torch.cuda.current_device()) if torch.cuda.is_available() else "cpu"
 )
 # Define a dictionary with the directory names and range of blurriness values for each rating
 ratings = {
