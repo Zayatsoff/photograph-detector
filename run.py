@@ -14,14 +14,14 @@ parser = argparse.ArgumentParser()
 # Add the "convert_im" argument and set its default value to False
 parser.add_argument(
     "--convert_im",
-    default=False,
+    default=True,
     action="store_true",
     help="Convert images from .ARW to .JPEG format [boolean]",
 )
 # Add the "old_path" argument and set its default value to an empty string
 parser.add_argument(
     "--old_path",
-    default="/Volumes/4TB_WD_MAUR/KPN stills/Day 6 PArty/RAW",
+    default="/Users/liorrozin/Desktop/OG",
     help="Path to the folder containing the .ARW files",
 )
 # Add the "new_path" argument and set its default value to an empty string

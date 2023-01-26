@@ -15,7 +15,7 @@ def random_image_convert(path, destination_path):
     ]
 
     # Select 20 random .ARW and .JPG files from the list
-    selected_files = random.sample(img_files, 20)
+    selected_files = random.sample(img_files, 48)
 
     # Loop through the selected files
     for file in selected_files:
