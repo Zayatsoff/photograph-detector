@@ -8,7 +8,10 @@ A program that reads a list of files with the extension .ARW or .JPG from a spec
 pip install -r requirements.txt
 
 ```
-
+3. If you are planning to use the image clusting, it only works on MacOS. Make sure to install FFMPEG using the following command:
+```
+brew install ffmpeg@4
+```
 ## Usage
 To run the program, use the following command:
 
@@ -27,7 +30,7 @@ The program will cluster all of the images based on how similar they are. Each c
 
 ## TODO
 - [x] Create `extracted` folder unless already created
-- [x] Add universal OS support
+- [x] Add universal OS support (Doesnt work for image clustering)
 - [x] Account for no faces in images
 - [x] Check for similar looking images
 - [ ] Detect weird faces in images
