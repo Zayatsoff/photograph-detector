@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser()
 # Add the "convert_im" argument and set its default value to True
 parser.add_argument(
     "--convert_im",
-    default=True,
+    default=False,
     action="store_true",
     help="Convert images from .ARW to .JPEG format [boolean]",
 )
@@ -72,56 +72,61 @@ print("\n---Beginning process---\n")
 if args.convert_im:
     random_image_convert(args.old_path, args.new_path)
 
-# Converts 20 random images from .ARW to .JPEG
+# Organize images by similarity
 if args.sim:
     fastdup_analyze(args.new_path)
     sim_groups(args.new_path)
 
 
+# Get all the folders in the path
+folders = [f for f in os.listdir(args.new_path) if os.path.isdir(os.path.join(args.new_path, f))]
 
-# Get images
-images = [f for f in os.listdir(args.new_path) if f.endswith(".JPEG")]
+for folder in folders:
+    highest_blurriness = 0
+    highest_blurriness_image = None
 
-for i, image in enumerate(images):
-    # Extract all the faces from each image
-    total_faces, pil_faces = face_extraction(args.new_path, image, device)
-    if total_faces == 0:
-        # Create the "No Faces" folder if it does not exist
-        if not os.path.exists(os.path.join(args.extracted_path, "No Faces")):
-            os.mkdir(os.path.join(args.extracted_path, "No Faces"))
-        # Move the image to the "No Faces" folder
-        shutil.move(
-            os.path.join(args.new_path, image),
-            os.path.join(args.extracted_path, "No Faces"),
-        )
-    else:
-        if pil_faces == None:
-            blurriness = 1
+    # Get all the images in the folder
+    images = [f for f in os.listdir(os.path.join(args.new_path, folder)) if f.endswith(".JPEG")]
+    for i, image in enumerate(images):
+        # Extract all the faces from each image
+        total_faces, pil_faces = face_extraction(os.path.join(args.new_path, folder), image, device)
+        if total_faces == 0:
+            # Create the "No Faces" folder if it does not exist
+            if not os.path.exists(os.path.join(args.extracted_path, "No Faces")):
+                os.mkdir(os.path.join(args.extracted_path, "No Faces"))
+            # Move the image to the "No Faces" folder
+            shutil.move(
+                os.path.join(args.new_path, folder, image),
+                os.path.join(args.extracted_path, "No Faces"),
+            )
         else:
-            # Detect all the blurred faces
-            count = blur_detection(pil_faces, args.thresh)
-            # Calculate the blurriness factor of each photograph
-            blurriness = count / total_faces
+            if pil_faces == None:
+                blurriness = 1
+            else:
+                # Detect all the blurred faces
+                count = blur_detection(pil_faces, args.thresh)
+                # Calculate the blurriness factor of each photograph
+                blurriness = count / total_faces
 
-        # Loop through the ratings dictionary
-        for rating, (min_val, max_val) in ratings.items():
-            # Check if the blurriness value falls within the range for the current rating
-            if min_val <= blurriness <= max_val:
-                # Check if the directory for the extracted folder
-                if not os.path.exists(args.extracted_path):
-                    # Create the directory for extracted folder
-                    os.mkdir(args.extracted_path)
-                if not os.path.exists(os.path.join(args.extracted_path, rating)):
-                    # Create the directory for the rating
-                    os.mkdir(os.path.join(args.extracted_path, rating))
-                # Move the image to the appropriate folder
-                shutil.move(
-                    os.path.join(args.new_path, image),
-                    os.path.join(args.extracted_path, rating),
-                )
+            # Check if the current image has the highest blurriness
+            if blurriness > highest_blurriness:
+                highest_blurriness = blurriness
+                highest_blurriness_image = os.path.join(args.new_path, folder, image)
+    # Only move the image with the highest blurriness
+    if os.path.isfile(args.extracted_path):
+        os.remove(args.extracted_path)
+    if not os.path.exists(args.extracted_path):
+        os.mkdir(args.extracted_path)
+    if highest_blurriness_image:
+        shutil.move(highest_blurriness_image, os.path.join(args.extracted_path, folder + '_' + highest_blurriness_image.split("/")[-1]))
     print(f"{i+1} image(s) processed successfully!")
+
+
+
+
 
     # Raise an error if the blurriness value is outside the valid range
     if blurriness < 0 or blurriness > 1:
         raise ValueError("Blurriness value is outside the valid range (0 to 1)")
 print("\n---All images have been organized!---")
+
