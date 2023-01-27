@@ -13,7 +13,7 @@ pip install -r requirements.txt
 To run the program, use the following command:
 
 ```
-python run.py --convert_im --old_path [path] --new_path [path] --extracted_path [path] --thresh [threshold in float]
+python run.py --convert_im --sim --old_path [path] --new_path [path] --extracted_path [path] --thresh [threshold in float]
 ```
 
 For a full list of available arguments and their descriptions, run the following command:
@@ -23,19 +23,20 @@ python run.py --help
 ```
 
 ## Output
-The program will create six folders named "1 star", "2 stars", "3 stars", "4 stars",  "5 stars", and "No Faces" in the specified directory. It will then move the processed images into the appropriate folder based on their blurriness rating.
+The program will cluster all of the images based on how similar they are. Each cluster will have its own folder. One picture is then chosen from each folder create six folders based on how blurry the image is.
 
 ## TODO
 - [x] Create `extracted` folder unless already created
 - [x] Add universal OS support
 - [x] Account for no faces in images
-- [ ] Check for similar looking images
-- [ ] Turn into a standalone
+- [x] Check for similar looking images
 - [ ] Detect weird faces in images
 - [ ] Improve Facial recognition
+- [ ] Turn into a standalone
 
 
 ## Additional Notes
 - The MTCNN model provided by [Tim Esler](https://github.com/timesler/facenet-pytorch). 
-- The MTCNN model may not accurately detect all faces in the images.
+    - The MTCNN model may not accurately detect all faces in the images.
 - The variance of Laplacian method may not accurately detect blurriness in all cases. Use caution when interpreting the results.
+- The similarity cluster is achieved using [FastDup](https://github.com/visual-layer/fastdup)
