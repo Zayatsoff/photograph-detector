@@ -6,17 +6,26 @@ import argparse
 from random_image_converter import random_image_convert
 from mtcnn_face_extraction import face_extraction
 from variance_of_laplacian import blur_detection
+from fastdup_analysis import fastdup_analyze
+from group_similar_images import sim_groups
 
 ## --- Arg Parse ---
 # Create a parser object
 parser = argparse.ArgumentParser()
 
-# Add the "convert_im" argument and set its default value to False
+# Add the "convert_im" argument and set its default value to True
 parser.add_argument(
     "--convert_im",
     default=True,
     action="store_true",
     help="Convert images from .ARW to .JPEG format [boolean]",
+)
+# Add the "sim" argument and set its default value to True
+parser.add_argument(
+    "--sim",
+    default=True,
+    action="store_true",
+    help="Categories images by similarity",
 )
 # Add the "old_path" argument and set its default value to an empty string
 parser.add_argument(
@@ -62,6 +71,12 @@ print("\n---Beginning process---\n")
 # Converts 20 random images from .ARW to .JPEG
 if args.convert_im:
     random_image_convert(args.old_path, args.new_path)
+
+# Converts 20 random images from .ARW to .JPEG
+if args.sim:
+    fastdup_analyze(args.new_path)
+    sim_groups(args.new_path)
+
 
 
 # Get images
