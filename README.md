@@ -1,4 +1,4 @@
-# Face Blur Detector and Organiser
+# ImageClusterBlur
 A program that reads a list of files with the extension .ARW or .JPG from a specified directory, selects a random sample of 20 files, and converts them to JPEG images (unless they are already .JPEG). Following that, the images are clustered based on visual similarity.These images are then passed through MTCNN to extract all of the faces in the image. Using the variance of Laplacian method, the program labels each face as either "blurry" or "not blurry" based on a user-specified threshold value (less than 10.00 is considered blurry by default). For each photograph, the program calculates the percentage of blurry faces by dividing the total number of blurry faces by the total number of faces. Based on this percentage, the program categorizes each image into one of five folders, ranging from 1 to 5 stars. Finally, the program moves each converted JPEG image into the appropriate folder based on its blurriness rating.
 
 ## Installation
